@@ -6,13 +6,12 @@ import { useNotification } from "web3uikit"
 import { ethers } from "ethers"
 
 export default function LotteryEntrance() {
-    const { Moralis, isWeb3Enabled, chainId: chainIdHex } = useMoralis()
+    const { isWeb3Enabled, chainId: chainIdHex } = useMoralis()
     // These get re-rendered every time due to our connect button!
     const chainId = parseInt(chainIdHex)
-    // console.log(`ChainId is ${chainId}`)
     const raffleAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
 
-    // State hooks
+    // State hooks -> page gets re-rendered when it chhanges
     // https://stackoverflow.com/questions/58252454/react-hooks-using-usestate-vs-just-variables
     const [entranceFee, setEntranceFee] = useState("0")
     const [numberOfPlayers, setNumberOfPlayers] = useState("0")
@@ -32,8 +31,6 @@ export default function LotteryEntrance() {
         msgValue: entranceFee,
         params: {},
     })
-
-    /* View Functions */
 
     const { runContractFunction: getEntranceFee } = useWeb3Contract({
         abi: abi,
